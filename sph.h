@@ -45,46 +45,18 @@ class SphSolver{
 			 vsp(10.0)
 	{
 	}
-// domain is divided into cells of side 2h
-	void step();
-	void init_particles();
 
-/*	template <typename Function>
-		void foreach_particle(Function function){
-			for(int j=0; j<grid_height; j++){
-				for(int i=0; i<grid_width;i++){
-					GridCell &grid_cell = grid_cells[ grid_width*j + i];
-					list<Partcile> &plist = grid_cell.ParticlesInCell;
-					for(list<Particle>::iterator piter = plist.begin(); piter != plist.end(); piter++)
-					{
-						function(*piter);
-					}
-				}
-			}
-		}
-*/
+	void update();
+// domain is divided into cells of side 2h
+
 	private:	
 	float kernel(const Vector2f &r, const float hsml);
 	Vector2f gradient_kernel(const Vector2f &r, const float hmsl);
 	void add_density(Particle &particle, Particle &neighbour);
-	void sum_density(GridCell &grid_cell, Particle &particle);
-	void sum_all_density(int i, int j, Particle &particle);
-	void update_densities(int i, int j);
 	void add_forces(Particle &particle, Particle &neighbour);
-	void sum_forces(GridElement &grid_element, Particle &particle);
-	void sum_all_forces(int i, int j, Particle &particle);
-	void update_forces(int i, int j);
-	void update_particle(Particle &particle);
-	void update_particles(int i, int j);
-	void insert_into_grid(int i, int j);
-	void update_densities();
-	void update_forces();
-	void update_particles();
-	
-	void update_EoS(); //pressure
+	void add_pressure(Particle& particle, Particle& neighbour);
 	void update_BC();//DBC, RBC, POBC
 
-};
 
 #endif 
 

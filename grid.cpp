@@ -106,4 +106,49 @@ void GridClass::fbp_add_to_grid(GridCell *target_grid, Particle &fbparticle);
 		target_grid[grid_index(i,j)].FBP.push_back(fbparticle);
 	}
 
+void GridClass::GlobalUpdate()
+{
+	for(int j=0; j<grid_height; j++)
+		for(int i=0; i<grid_width; i++)
+		{
+			NeighbhourCells(i,j);
+		}
+}
+
+// for each particle in cell(i,j), call Celij to update its property, related to 9 neighbor cells
+void GridClass::NeighbourCells(int i, int j)
+{
+	GridCell& grid_cell = grid(i,j);
+	list<Particle>& fplist = grid_cell.FP;
+	for(list<Particle>::iterator fpiter = fplist.begin(); fpiter != fplist.end(); fpiter++)
+	{
+		Celij(int i, int j, Particle& *fpiter);
+	}
+}
+
+//for one special particle:
+void GridClass:Celij(int i, int j, Particle& particle)
+{
+	for (int y=j-1; y<=j+1; y++)
+		for(int x=i-1; x<=i+1; x++)
+		{
+			if( (x<0) || (x>=grid_width) || (y<0) ||(y>=grid_height) )
+			{
+				continue;
+			}
+			SphSolver::UpdateParticlePerCell(grid(x,y), particle);
+		}
+	//consider Periodic B.C.
+	//
+}
+
+void SphSolver::UpdateParticleInCell(GridCell& grid_cell, Particle& particle)
+	{
+		list<Particle>& fplist = grid_cell.FP;
+		for(list<Particle>::iterator fpiter = fplist.begin(); fpiter = fplist.end(); fpiter++)
+		{
+		SphSolver::update(particle, *piter);
+		}
+	}	
+
 
