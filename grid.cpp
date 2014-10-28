@@ -136,13 +136,13 @@ void GridClass:Celij(int i, int j, Particle& particle)
 			{
 				continue;
 			}
-			SphSolver::UpdateParticlePerCell(grid(x,y), particle);
+			UpdateParticlePerCell(grid(x,y), particle);
 		}
 	//consider Periodic B.C.
 	//
 }
 
-void SphSolver::UpdateParticleInCell(GridCell& grid_cell, Particle& particle)
+void GridClass::UpdateParticleInCell(GridCell& grid_cell, Particle& particle)
 	{
 		list<Particle>& fplist = grid_cell.FP;
 		for(list<Particle>::iterator fpiter = fplist.begin(); fpiter = fplist.end(); fpiter++)
