@@ -46,6 +46,6 @@ GridClass {
 	void GlobalUpdate();
 	void NeighbourCells(int i, int j);
 	void Celij(int i, int j, Particle& particle);
-	void UpdateParticleInCell(GridCell& grid_cell, Particle& particle);
+	void UpdateParticleInCell(int i, int j, GridCell& grid_cell, Particle& particle);
 
 };
