@@ -1,6 +1,6 @@
 #include "grid.h"
 
-void GridClass::check_limit();
+void GridClass::check_limit()
 	{	
 		for(list<Particle>::iterator fpiter=fplist.begin(); fpiter!=fplist.end(); fpiter++)
 		{
@@ -19,7 +19,7 @@ void GridClass::check_limit();
 		       }
 	        }
 		
-void GridClass::init_grid();
+void GridClass::init_grid()
 	{
 		grid_cells = new GridCell[grid_width * grid_height];
 		tmp_grid_cells = new GridCell[grid_width * grid_height];
@@ -40,7 +40,7 @@ void GridClass::init_grid();
 		}
 	}
 
-void GridClass::insert_into_grid(int i, int j);
+void GridClass::insert_into_grid(i, j)
 	{
 		GridCell &grid_cell = grid(i,j);
 		list<Particle>& fplist = grid_cell.FP;
@@ -55,7 +55,7 @@ void GridClass::insert_into_grid(int i, int j);
 		}
 	}
 
-void GridClass::update_grid();
+void GridClass::update_grid()
 	{
 		//update divide for every timestep
 		for(int j=0; j<grid_height; j++)
@@ -66,22 +66,22 @@ void GridClass::update_grid();
 		swap(grid_cells, tmp_grid_cells);
 	}
 
-GridCell& GridClass::grid(int i, int j);
+GridCell& GridClass::grid(i, j)
 	{
 		return grid_elements[grid_index(i,j)];
 	}
 
-GridCell& GridClass::tmp_grid(int i, int j);
+GridCell& GridClass::tmp_grid(i, j);
 	{
 		return tmp_grid_elements[grid_index(i,j)];
 	}
 
-int GridClass::grid_index(int i, int j);
+int GridClass::grid_index(i,  j)
 	{
 		return grid_width*j + i;
 	}
 
-void GridClass::fp_add_to_grid(GridCell *target_grid, Particle &fparticle);
+void GridClass::fp_add_to_grid(target_grid, fparticle)
 	{
 		int i = (int) (fparticle.position.x/core_radius);
 		int j = (int) (fparticle.position.z/core_radius);
@@ -89,7 +89,7 @@ void GridClass::fp_add_to_grid(GridCell *target_grid, Particle &fparticle);
 		target_grid[grid_index(i,j)].FP.push_back(fparticle);
 	}
 	
-void GridClass::mbp_add_to_grid(GridCell *target_grid, Particle &mbparticle);
+void GridClass::mbp_add_to_grid(target_grid, mbparticle)
 	{
 		int i = (int) (mbparticle.position.x/core_radius);
 		int j = (int) (mbparticle.position.z/core_radius);
@@ -97,7 +97,7 @@ void GridClass::mbp_add_to_grid(GridCell *target_grid, Particle &mbparticle);
 		target_grid[grid_index(i,j)].MBP.push_back(mbparticle);
 	}
 	
-void GridClass::fbp_add_to_grid(GridCell *target_grid, Particle &fbparticle);
+void GridClass::fbp_add_to_grid(target_grid, fbparticle)
 	{
 		int i = (int) (fbparticle.position.x/core_radius);
 		int j = (int) (fbparticle.position.z/core_radius);
@@ -115,7 +115,7 @@ void GridClass::GlobalUpdate()
 }
 
 // for each particle in cell(i,j), call Celij to update its property, related to 9 neighbor cells
-void GridClass::NeighbourCells(int i, int j)
+void GridClass::NeighbourCells( i, j)
 {
 	GridCell& grid_cell = grid(i,j);
 	list<Particle>& fplist = grid_cell.FP;
@@ -126,7 +126,7 @@ void GridClass::NeighbourCells(int i, int j)
 }
 
 //for one special particle:
-void GridClass:Celij(int i, int j, Particle& particle)
+void GridClass:Celij( i, j, particle)
 {
 	for (int y=j-1; y<=j+1; y++)
 		for(int x=i-1; x<=i+1; x++)
@@ -141,7 +141,8 @@ void GridClass:Celij(int i, int j, Particle& particle)
 	//
 }
 
-void GridClass::UpdateParticleInCell(i, j, GridCell& grid_cell, Particle& particle)
+//this Update is used for FP inCell
+void GridClass::UpdateParticleInCell(i, j, grid_cell, particle)
 	{
 		list<Particle>& fplist = grid_cell.FP; //fluid particles in Cell
 		
