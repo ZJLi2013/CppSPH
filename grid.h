@@ -16,8 +16,6 @@ GridClass {
 	GridCell* tmp_grid_cells;
 
 	public:
-
-	GridCell* CellsToSph;
 	GridClass(	float hsml,
 			float domain_width,
 			float domain_height,
@@ -35,17 +33,22 @@ GridClass {
 
 	void check_limit();
 	void init_grid();
-	void insert_into_grid(int i, int j);	
 	void update_grid();
+	void GlobalUpdate();
+	
+	void FixWallVector(); //I am not sure this is a good try
+	
+
+	private:
+	void insert_into_grid(int i, int j);	
 	GridCell &grid(int i, int j);
 	GridCell &tmp_grid(int i, int j);
 	int grid_index(int i, int j);
 	void fp_add_to_grid(GridCell *target_grid, Particle &fparticle);
 	void mbp_add_to_grid(GridCell *target_grid, Particle &mbparticle);
 	void fbp_add_to_grid(GridCell *target_grid, Particle &fbparticle);
-	void GlobalUpdate();
 	void NeighbourCells(int i, int j);
 	void Celij(int i, int j, Particle& particle);
-	void UpdateParticleInCell(GridCell& grid_cell, Particle& particle);
+	void UpdateParticleInCell(int i, int j, GridCell& grid_cell, Particle& particle);
 
 };

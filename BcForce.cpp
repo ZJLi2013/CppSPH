@@ -89,7 +89,6 @@ for(list<Particle>::iterator bcpiter= bcpist.begin(); bcpiter != bcplist.end(); 
 		 bc_force = Vector2f(0.0f);
 	
 	particle.force -=bc_force* bcpiter->mass; 
-	index++;
 	}
 }
 
