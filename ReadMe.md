@@ -18,3 +18,7 @@ in each time-step, call SphSolver to update fluid particles(FP), and call Object
 
 there are some global variables for both SphSolver and ObjectSolver;
 
+Oct 28
+Adding fixed B.C. Wall normal/tang vectors. The vectors can be easily obtained from Celij. 
+
+The problem is about moving objects wall normal vectors, which should be updaded every timestep
