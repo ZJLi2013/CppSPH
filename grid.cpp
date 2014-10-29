@@ -1,5 +1,4 @@
-#include "sph.h"
-
+#include "grid.h"
 
 void GridClass::check_limit();
 	{	
@@ -136,19 +135,30 @@ void GridClass:Celij(int i, int j, Particle& particle)
 			{
 				continue;
 			}
-			UpdateParticlePerCell(grid(x,y), particle);
+			UpdateParticlePerCell(i, j, grid(x,y), particle);
 		}
 	//consider Periodic B.C.
 	//
 }
 
-void GridClass::UpdateParticleInCell(GridCell& grid_cell, Particle& particle)
+void GridClass::UpdateParticleInCell(i, j, GridCell& grid_cell, Particle& particle)
 	{
-		list<Particle>& fplist = grid_cell.FP;
+		list<Particle>& fplist = grid_cell.FP; //fluid particles in Cell
+		
+		if(grid_cell.FBP.size()) //FP-FBP interaction
+		{
+			SphSolver::BcForce(i, j, particle, grid_cell.FBP);	
+		}
+
+		if(grid_cell.MBP.size()) //FP-MBP interaction
+		{
+			SphSolver::BcForce(i, j, particle, grid_cell.MBP);
+		}
+	
 		for(list<Particle>::iterator fpiter = fplist.begin(); fpiter = fplist.end(); fpiter++)
 		{
-		SphSolver::update(particle, *piter);
+			SphSolver::update(particle, *fpiter);  //FP-FP interaction
 		}
-	}	
-
+		
+}	
 

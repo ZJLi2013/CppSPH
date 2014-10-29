@@ -1,8 +1,10 @@
 #include "sph.h"
+#include "grid.h"
+
 #define PI_FLOAT  3.141592653589793f
 #define square(x)	  ((x)*(x))
 
-inline float SphFluidSolver :: kernel(const Vector2f &r, const float h)
+inline float SphSolver :: kernel(const Vector2f &r, const float h)
 {
 	const float alpha = 2/PI_FLOAT/square(h);
 	const float q = length(r)/h;
@@ -12,7 +14,7 @@ inline float SphFluidSolver :: kernel(const Vector2f &r, const float h)
 		return 0;
 }
 
-inline Vector2f SphFluidSolver:: gradient_kernel(const Vector2f &r, const float h)
+inline Vector2f SphSolver:: gradient_kernel(const Vector2f &r, const float h)
 {
 	const float alpha = 2/PI_FLOAT/square(h);
 	const float q = length(r)/h;
@@ -22,7 +24,7 @@ inline Vector2f SphFluidSolver:: gradient_kernel(const Vector2f &r, const float 
 		return Vector2f(0.0f);
 }
 
-inline void SphFluidSolver :: add_density(Particle &particle, Particle &neighbour)
+inline void SphSolver :: add_density(Particle &particle, Particle &neighbour)
 {
 	if(particle.id > neighbour.id)	return ;
 	Vector2f r=particle.position - neighbour.position;
@@ -32,7 +34,7 @@ inline void SphFluidSolver :: add_density(Particle &particle, Particle &neighbou
 	neighbour.density += particle.mass*common;
 }
 
-inline void SphFluidSolver::add_force(Particle &particle, Particle &neighbour)
+inline void SphSolver::add_force(Particle &particle, Particle &neighbour)
 {
 	if(particle.id >= neighbour.id) return;
 	Vector2f r = particle.position - neighbour.position;
@@ -64,7 +66,7 @@ v/* compute pressrue force */
 /*gravity is not based on particle collection */
 }
 
-inline void SphFluidSolver::add_pressure(Particle& particle, Particle& neighbour)
+inline void SphSolver::add_pressure(Particle& particle, Particle& neighbour)
 {
 }
 
@@ -74,4 +76,5 @@ void SphSolver::update(Particle& particle, Particle& neighbour)
 	add_force(particle, neighbour);
 	add_pressure(particle, neighbour);
 }
+
 

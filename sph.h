@@ -55,8 +55,8 @@ class SphSolver{
 	void add_density(Particle &particle, Particle &neighbour);
 	void add_forces(Particle &particle, Particle &neighbour);
 	void add_pressure(Particle& particle, Particle& neighbour);
-	void update_BC();//DBC, RBC, POBC
-
+//	void update_BC();//DBC, RBC, POBC
+	void BcForce(int i, int j, Particle& fparticle, const list<Particle>& bcplist);
 
 #endif 
 
