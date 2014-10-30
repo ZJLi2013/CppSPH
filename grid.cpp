@@ -105,6 +105,9 @@ void GridClass::fbp_add_to_grid(target_grid, fbparticle)
 		target_grid[grid_index(i,j)].FBP.push_back(fbparticle);
 	}
 
+//this function, update F.P. 's density, pressure, acc, but not velocity and position
+// so there needs another update in GridClass or in SphSystem to call the stepping function
+// is it good idea to do step in GridClass, maybe no, if so GridClass has so many contents
 void GridClass::GlobalUpdate()
 {
 	for(int j=0; j<grid_height; j++)
@@ -135,31 +138,56 @@ void GridClass:Celij( i, j, particle)
 			{
 				continue;
 			}
-			UpdateParticlePerCell(i, j, grid(x,y), particle);
+			UpdateParticleInCell(i, j, grid(x,y), particle);
 		}
 	//consider Periodic B.C.
 	//
 }
 
-//this Update is used for FP inCell
 void GridClass::UpdateParticleInCell(i, j, grid_cell, particle)
 	{
 		list<Particle>& fplist = grid_cell.FP; //fluid particles in Cell
-		
+		//this is used for update FP inCell
 		if(grid_cell.FBP.size()) //FP-FBP interaction
 		{
-			SphSolver::BcForce(i, j, particle, grid_cell.FBP);	
+			sphsolver.BcForce(i, j, particle, grid_cell.FBP);	
 		}
-
+//here MBP is much more like FBP
 		if(grid_cell.MBP.size()) //FP-MBP interaction
 		{
-			SphSolver::BcForce(i, j, particle, grid_cell.MBP);
+			sphsolver::BcForce(i, j, particle, grid_cell.MBP);
+			floatingbody.RigidMoving(grid_cell.MBP);
 		}
 	
 		for(list<Particle>::iterator fpiter = fplist.begin(); fpiter = fplist.end(); fpiter++)
 		{
-			SphSolver::update(particle, *fpiter);  //FP-FP interaction
+			sphsolver::update(particle, *fpiter);  //FP-FP interaction
 		}
-		
+
 }	
 
+//in this way, MBP is considered as FBP, so Moving Body update like rigid body
+// problem is moving body is also departed into cells, there is no simple way to update body outside of GridClass
+
+void GridClass::updateFP()
+{
+	for(int i=0; i<grid_width; i++)
+		for(int j=0; j<grid_height; j++)
+		{
+			updateFPInEachCell(i,j);
+		}
+}
+
+void GridClass::updateFPInEachCell(int i, int j)
+{
+	GridCell& grid_cell = grid(i,j);
+	list<Particle> fplist = grid_cell.FP;
+	list<Particle>::iterator fpiter;
+	for(fpiter=temp_fplist.begin(); fpiter != temp_fplist.end(); fpiter++)
+	{	
+		fpiter->density += fpiter->density + dt2 * rdot;
+		fpiter->pressure += fpiter->pressure + dt2*dpresure;
+		fpiter->velocity += fpiter->velocity + dt2* fpiter->acc;
+		fpiter->position += fpiter->position + dt2* fpiter->velocity;
+	}
+}

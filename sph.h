@@ -8,7 +8,6 @@ struct Particle;
 #define _SPH_H_
 
 #include "Vector.h"
-#include "grid.h"
 
 struct Particle
 {
@@ -36,7 +35,6 @@ class SphSolver{
 		const float hsml;
 		const float timestep;
 		const float vsp; //vel of sound speed
-		GridCell *grid_cells;
 
 	public:
 		SphSolver(float hsml, float timestep)

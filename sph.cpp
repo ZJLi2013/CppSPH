@@ -1,5 +1,4 @@
 #include "sph.h"
-#include "grid.h"
 
 #define PI_FLOAT  3.141592653589793f
 #define square(x)	  ((x)*(x))
@@ -76,5 +75,4 @@ void SphSolver::update(Particle& particle, Particle& neighbour)
 	add_force(particle, neighbour);
 	add_pressure(particle, neighbour);
 }
-
 

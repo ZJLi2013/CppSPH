@@ -1,4 +1,5 @@
 #include "sph.h"
+#include "object.h"
 
 struct GridCell
 {
@@ -14,6 +15,10 @@ GridClass {
 
 	GridCell* grid_cells;
 	GridCell* tmp_grid_cells;
+
+	SphSolver sphsolver;
+	object	floatingbody;
+
 
 	public:
 	GridClass(	float hsml,
