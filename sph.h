@@ -33,13 +33,11 @@ struct Particle
 class SphSolver{
 	private:
 		const float hsml;
-		const float timestep;
 		const float vsp; //vel of sound speed
 
 	public:
-		SphSolver(float hsml, float timestep)
+		SphSolver(float hsml)
 			:hsml(hsml),
-			 timestep(timestep),
 			 vsp(10.0)
 	{
 	}

@@ -3,15 +3,15 @@
 
 void FloatingObject::RigidMoving(mbp)
 	{
-		RigidMoving( mbp, currenttime);
+		RigidMoving( mbp, currenttimestep);
 	}
 	
-void FloatingObject::RigidMoving(mbp,currenttime)
+void FloatingObject::RigidMoving(mbp,currenttimestep)
 	{
-		if( double currenttime >= starttime)
+		if( currenttimestep >= starttimestep)
 		{
 			VelObject.x = 0.0;
-			VelObject.z = sin(2*pi*currenttime)*HSML/TS;  // which should satisfy vel*ts <= hsml
+			VelObject.z = sin(2*pi*currenttimestep)*HSML/TS;  // which should satisfy vel*ts <= hsml
 			for(list<Particle>::iterator mbpiter = mbpartilces.begin(); mbpiter != mbparticles.end(); mbpiter++)
 			{
 				mbpiter->position += VelObject*TS;

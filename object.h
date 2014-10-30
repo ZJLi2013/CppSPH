@@ -4,14 +4,14 @@
 class FloatingObject
 {
 	Vector2f VelObject;   // moving velocity
-	double starttime; 
-	double currenttime;
+	int starttimestep; 
+	int currenttimestep;
 
 	public:
 	FloatingObject(double TS, 
-		   	double currenttime)
-		: starttime(10*TS),
-		  currenttime(currenttime)
+		   	double currentstep)
+		: starttimestep(TS),
+		  currenttime(currentstep)
 	{
 	}
 
@@ -21,7 +21,7 @@ class FloatingObject
 	private:
 	void RigidMoving(list<Particle>& mbp, double currenttime)
 	void FluidDrivenMoving(list<Particle>& mbp, double currenttime)
-		//in this fluid_driven_moving, MBP treated same as a BP, and it will collect force from surround FP and MBP, and then act on mass center, then update vel and position
+		//in this _driven_moving, MBP treated same as a BP, and it will collect force from surround FP and MBP, and then act on mass center, then update vel and position
 };	
 			
 
